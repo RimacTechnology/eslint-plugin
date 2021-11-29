@@ -1,19 +1,19 @@
 {
-  "root": true,
-  "extends": [
-    "plugin:eslint-plugin/all",
-    "@rimac-automobili/eslint-config/core"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "plugins": ["eslint-plugin"],
-  "env": {
-    "node": true
-  },
-  "rules": {
-    "eslint-plugin/require-meta-docs-url": "off",
-    "eslint-plugin/require-meta-docs-description": "off"
-  }
+    "root": true,
+    "extends": [
+        "plugin:eslint-plugin/all",
+        "@rimac-automobili/eslint-config/core"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "plugins": ["eslint-plugin"],
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "eslint-plugin/require-meta-docs-url": "off",
+        "eslint-plugin/require-meta-docs-description": "off"
+    }
 }
