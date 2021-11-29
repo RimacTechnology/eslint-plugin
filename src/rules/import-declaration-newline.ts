@@ -37,7 +37,7 @@ const value = createRule({
 
                         const localSourceCode = context.getSourceCode()
 
-                        const namedImportAfterDefault = moduleType === IMPORT
+                        const namedImportAfterDefault = moduleType === 'IMPORT'
                                 && node.specifiers[index].type === 'ImportSpecifier'
                                 && (
                                     node.specifiers[index - 1]
@@ -48,6 +48,7 @@ const value = createRule({
                             if (moduleVariables.length <= 2) {
                                 return null
                             }
+
                             const endOfDefaultImport = node.specifiers[index - 1].range[1]
                             const beginningOfNamedImport = node.specifiers[index].range[0]
 
@@ -57,16 +58,35 @@ const value = createRule({
                                         && token.range[0] >= endOfDefaultImport
                                         && token.range[1] <= beginningOfNamedImport
                             )
-                            const rangeAfterBrace = [brace.range[0], brace.range[1]]
+
+                            if (!brace?.range[0]) {
+                                return
+                            }
+
+                            const rangeAfterBrace: TSESTree.Range = [brace?.range[0], brace?.range[1]]
 
                             report((fixer) => fixer.replaceTextRange(rangeAfterBrace, '{\n'))
                         } else {
+                            if (!firstTokenOfCurrentProperty) {
+                                return
+                            }
+
                             const comma = localSourceCode.getTokenBefore(firstTokenOfCurrentProperty)
-                            const rangeAfterComma = [comma.range[1], firstTokenOfCurrentProperty.range[0]]
+
+                            if (!comma) {
+                                return
+                            }
+
+                            const rangeAfterComma: TSESTree.Range = [
+                                comma.range[1],
+                                firstTokenOfCurrentProperty.range[0],
+                            ]
+
                             // don't fix if comments between the comma and the next property.
                             if (localSourceCode.text.slice(rangeAfterComma[0], rangeAfterComma[1]).trim()) {
                                 return null
                             }
+
                             report((fixer) => fixer.replaceTextRange(rangeAfterComma, '\n'))
                         }
                     }

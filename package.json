@@ -5,7 +5,8 @@
     "license": "UNLICENSED",
     "main": "lib/index.js",
     "scripts": {
-        "lint": "eslint ."
+        "lint": "eslint ./src/**/* --quiet",
+        "build": "tsc"
     },
     "dependencies": {},
     "devDependencies": {
