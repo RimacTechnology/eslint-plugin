@@ -9,9 +9,5 @@
         "strictNullChecks": true
     },
     "include": ["**/*"],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "**/*.test-data.ts"
-    ]
+    "exclude": ["node_modules", "dist"]
 }
