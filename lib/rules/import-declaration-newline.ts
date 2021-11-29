@@ -3,7 +3,9 @@ import type { TSESTree } from '@typescript-eslint/types'
 
 import { createRule } from '../utils'
 
-const rule = createRule({
+const NAME = 'import-declaration-newline'
+
+const value = createRule({
     create(context) {
         return {
             ImportDeclaration(node: TSESTree.ImportDeclaration) {
@@ -86,8 +88,11 @@ const rule = createRule({
         schema: [],
         type: 'layout',
     },
-    name: 'import-declaration-newline',
+    name: NAME,
 })
 
-export default rule
+export default {
+    name: NAME,
+    value,
+}
 
