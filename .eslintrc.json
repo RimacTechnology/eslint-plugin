@@ -1,16 +1,15 @@
 {
   "root": true,
   "extends": [
-    "eslint:recommended",
     "plugin:eslint-plugin/all",
-    "plugin:node/recommended"
+    "@rimac-automobili/eslint-config/core"
   ],
-  "plugins": ["eslint-plugin"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2017
+    "project": "./tsconfig.json"
   },
+  "plugins": ["eslint-plugin"],
   "env": {
-    "es6": true,
     "node": true
   },
   "rules": {
