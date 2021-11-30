@@ -11,8 +11,13 @@
 
 -   [Typescript Eslint Docs](https://typescript-eslint.io/docs/development/custom-rules/)
 -   [Writing Custom Rules Guide](https://www.darraghoriordan.com/2021/11/06/how-to-write-an-eslint-plugin-typescript/)
+-   [Example Plugin](https://github.com/darraghoriordan/eslint-plugin-nestjs-typed)
 
 ## Note
 
 -   Some of the rules have been taken and modified/updated from the following repos
     -   <https://github.com/gmsorrow/eslint-plugin-modules-newline>
+
+## TODO
+
+-   Figure out why `fixtures` folder is needed. Something to do with [this PR](https://github.com/typescript-eslint/typescript-eslint/pull/760)

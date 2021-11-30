@@ -26,6 +26,7 @@ const value = createRule({
 
                 for (let index = 1; index < moduleVariables.length; index++) {
                     const firstTokenOfCurrentProperty = sourceCode.getFirstToken(moduleVariables[index])
+
                     if (moduleVariables[index].loc.start.line === moduleVariables[index - 1].loc.start.line) {
                         const report = (fixer: ReportFixFunction) => {
                             context.report({
