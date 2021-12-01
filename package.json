@@ -11,6 +11,8 @@
     },
     "dependencies": {},
     "devDependencies": {
+        "@rimac-automobili/eslint-config": "^20.0.1",
+        "@types/node": "^16.11.11",
         "@typescript-eslint/experimental-utils": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
         "@typescript-eslint/types": "^5.4.0",

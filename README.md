@@ -12,6 +12,7 @@
 -   [Typescript Eslint Docs](https://typescript-eslint.io/docs/development/custom-rules/)
 -   [Writing Custom Rules Guide](https://www.darraghoriordan.com/2021/11/06/how-to-write-an-eslint-plugin-typescript/)
 -   [Example Plugin](https://github.com/darraghoriordan/eslint-plugin-nestjs-typed)
+-   [Playground](https://astexplorer.net/)
 
 ## Note
 

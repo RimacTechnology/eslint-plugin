@@ -1,5 +1,4 @@
-import type { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
-import type { TSESTree } from '@typescript-eslint/types'
+import { TSESTree } from '@typescript-eslint/types'
 
 import { createRule } from '../utils'
 
@@ -9,86 +8,103 @@ const value = createRule({
     create(context) {
         return {
             ImportDeclaration(node: TSESTree.ImportDeclaration) {
-                const moduleType = 'IMPORT'
-
                 // If only 1 import skip
                 if (node.specifiers.length < 2) {
-                    return null
+                    return
                 }
 
                 const sourceCode = context.getSourceCode()
 
-                let moduleVariables = node.specifiers
+                // Iterate trough each import node
+                // E.g. import { A, B, C } from 'D' should go iterate A, B, C
+                for (let index = 1; index < node.specifiers.length; index++) {
+                    const previousSpecifier = node.specifiers[index - 1]
+                    const currentSpecifier = node.specifiers[index]
 
-                if (!moduleVariables) {
-                    return null
-                }
+                    // E.g import { A, B, C } from 'D'
+                    // Its looking at A and B
+                    // eslint-disable-next-line max-len
+                    const areMultipleImportsOnSameLine = currentSpecifier.loc.start.line === previousSpecifier.loc.start.line
 
-                for (let index = 1; index < moduleVariables.length; index++) {
-                    const firstTokenOfCurrentProperty = sourceCode.getFirstToken(moduleVariables[index])
-
-                    if (moduleVariables[index].loc.start.line === moduleVariables[index - 1].loc.start.line) {
-                        const report = (fixer: ReportFixFunction) => {
-                            context.report({
-                                fix: fixer,
-                                messageId: 'default',
-                                node,
-                            })
-                        }
-
-                        const localSourceCode = context.getSourceCode()
-
-                        const namedImportAfterDefault = moduleType === 'IMPORT'
-                                && node.specifiers[index].type === 'ImportSpecifier'
-                                && (
-                                    node.specifiers[index - 1]
-                                    && node.specifiers[index - 1].type === 'ImportDefaultSpecifier'
-                                )
-
-                        if (namedImportAfterDefault) {
-                            if (moduleVariables.length <= 2) {
+                    if (areMultipleImportsOnSameLine) {
+                        // Default import is before named imports
+                        // E.g. import React, { useState, useEffect } from 'react'
+                        if (
+                            currentSpecifier.type === TSESTree.AST_NODE_TYPES.ImportSpecifier &&
+                            previousSpecifier.type === TSESTree.AST_NODE_TYPES.ImportDefaultSpecifier
+                        ) {
+                            // Following is the case hence nothing to fix
+                            // import React, { useState } from 'react'
+                            if (node.specifiers.length <= 2) {
                                 return null
                             }
 
-                            const endOfDefaultImport = node.specifiers[index - 1].range[1]
-                            const beginningOfNamedImport = node.specifiers[index].range[0]
+                            // Find the brace where named imports begin
+                            // import React, { useEffect, useState } from react
+                            //               ^
+                            const brace = sourceCode.tokensAndComments.find((token) => {
+                                if (token.type === TSESTree.AST_TOKEN_TYPES.Punctuator && token.value === '{') {
+                                    return true
+                                }
+                            })
 
-                            const brace = localSourceCode.tokensAndComments.find(
-                                (token) => token.type === 'Punctuator'
-                                        && token.value === '{'
-                                        && token.range[0] >= endOfDefaultImport
-                                        && token.range[1] <= beginningOfNamedImport
-                            )
-
-                            if (!brace?.range[0]) {
+                            if (!brace) {
                                 return
                             }
 
-                            const rangeAfterBrace: TSESTree.Range = [brace?.range[0], brace?.range[1]]
-
-                            report((fixer) => fixer.replaceTextRange(rangeAfterBrace, '{\n'))
+                            // Replace starting brace with brace with new line
+                            // OLD: {
+                            // NEW: {\n
+                            context.report({
+                                fix: (fixer) => {
+                                    return fixer.replaceTextRange([brace.range[0], brace.range[1]], '{\n')
+                                },
+                                messageId: 'default',
+                                node,
+                            })
                         } else {
-                            if (!firstTokenOfCurrentProperty) {
+                            // Token from import node
+                            // E.g. import { A, B, C } from 'D' => this will be A
+                            const firstToken = sourceCode.getFirstToken(currentSpecifier)
+
+                            // Exit if no named imports in braces or a single import
+                            // E.g. import {} from 'react'
+                            // E.g. import { useState } from 'react'
+                            if (!firstToken) {
                                 return
                             }
 
-                            const comma = localSourceCode.getTokenBefore(firstTokenOfCurrentProperty)
+                            // Get comma before the named import
+                            // E.g. import { useState, useEffect } from 'react'
+                            //                       ^
+                            const comma = sourceCode.getTokenBefore(firstToken)
 
+                            // First named import shouldn't have a comma before it so exit
+                            // E.g. import { useState, useEffect } from 'react'
+                            //               ^^^^^^^^ => no comma before that word
                             if (!comma) {
                                 return
                             }
 
                             const rangeAfterComma: TSESTree.Range = [
                                 comma.range[1],
-                                firstTokenOfCurrentProperty.range[0],
+                                firstToken.range[0],
                             ]
 
-                            // don't fix if comments between the comma and the next property.
-                            if (localSourceCode.text.slice(rangeAfterComma[0], rangeAfterComma[1]).trim()) {
+                            // Don't fix comments between the comma and the next import
+                            if (sourceCode.text.slice(rangeAfterComma[0], rangeAfterComma[1]).trim()) {
                                 return null
                             }
 
-                            report((fixer) => fixer.replaceTextRange(rangeAfterComma, '\n'))
+                            // Replace comma with comma with new line
+                            // E.g. useEffect, will be replaced with useEffect,\n
+                            context.report({
+                                fix: (fixer) => {
+                                    return fixer.replaceTextRange(rangeAfterComma, '\n')
+                                },
+                                messageId: 'default',
+                                node,
+                            })
                         }
                     }
                 }
