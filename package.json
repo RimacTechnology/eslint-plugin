@@ -9,15 +9,17 @@
     ],
     "scripts": {
         "lint": "eslint './src/**/*' --quiet",
-        "build": "tsc",
+        "build": "tsc -p tsconfig.production.json",
         "test": "jest --config=./jest.config.ts --runInBand"
+    },
+    "dependencies": {
+        "@typescript-eslint/types": "^5.4.0"
     },
     "devDependencies": {
         "@rimac-automobili/eslint-config": "^20.0.1",
         "@types/node": "^16.11.11",
         "@typescript-eslint/experimental-utils": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
-        "@typescript-eslint/types": "^5.4.0",
         "eslint": "^8.3.0",
         "eslint-plugin-eslint-plugin": "^4.0.2",
         "jest": "^27.4.1",

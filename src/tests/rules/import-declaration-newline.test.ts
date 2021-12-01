@@ -1,6 +1,5 @@
-import { ruleTester } from '../utils'
-
-import rule from './import-declaration-newline'
+import rule from '../../rules/import-declaration-newline'
+import { ruleTester } from '../ruleTester'
 
 ruleTester.run(rule.name, rule.value, {
     invalid: [
