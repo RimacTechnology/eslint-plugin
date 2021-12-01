@@ -4,12 +4,14 @@
     "author": "Rimac Automobili d.o.o.",
     "license": "UNLICENSED",
     "main": "lib/index.js",
+    "files": [
+        "lib"
+    ],
     "scripts": {
-        "lint": "eslint ./src/**/* --quiet",
+        "lint": "eslint './src/**/*' --quiet",
         "build": "tsc",
         "test": "jest --config=./jest.config.ts --runInBand"
     },
-    "dependencies": {},
     "devDependencies": {
         "@rimac-automobili/eslint-config": "^20.0.1",
         "@types/node": "^16.11.11",
@@ -26,5 +28,6 @@
     },
     "engines": {
         "node": ">=v14.17.5"
-    }
+    },
+    "packageManager": "yarn@3.1.1"
 }

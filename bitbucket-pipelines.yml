@@ -1,0 +1,31 @@
+image: node:16.13.0
+
+pipelines:
+    default:
+        - step:
+              name: Install
+              script:
+                  - yarn install
+              artifacts:
+                  - node_modules/**
+        - parallel:
+              - step:
+                    name: Lint
+                    script:
+                        - yarn lint
+              - step:
+                    name: Test
+                    script:
+                        - yarn test
+              - step:
+                    name: Build
+                    script:
+                        - yarn build
+                    artifacts:
+                        - lib/**
+        - step:
+              name: Publish
+              script:
+                  - pipe: atlassian/npm-publish:0.3.2
+                    variables:
+                        NPM_TOKEN: $NPM_TOKEN
