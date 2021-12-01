@@ -14,7 +14,11 @@
 -   [Example Plugin](https://github.com/darraghoriordan/eslint-plugin-nestjs-typed)
 -   [Playground](https://astexplorer.net/)
 
-## Note
+## Notes
+
+-   [ASTree line properties are 1 based](https://gist.github.com/azu/8866b2cb9b7a933e01fe)
+
+## Acknowledgments
 
 -   Some of the rules have been taken and modified/updated from the following repos
     -   <https://github.com/gmsorrow/eslint-plugin-modules-newline>

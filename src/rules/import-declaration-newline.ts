@@ -18,20 +18,19 @@ const value = createRule({
                 // Iterate trough each import node
                 // E.g. import { A, B, C } from 'D' should go iterate A, B, C
                 for (let index = 1; index < node.specifiers.length; index++) {
-                    const previousSpecifier = node.specifiers[index - 1]
-                    const currentSpecifier = node.specifiers[index]
+                    const previousNode = node.specifiers[index - 1]
+                    const currentNode = node.specifiers[index]
 
                     // E.g import { A, B, C } from 'D'
                     // Its looking at A and B
-                    // eslint-disable-next-line max-len
-                    const areMultipleImportsOnSameLine = currentSpecifier.loc.start.line === previousSpecifier.loc.start.line
+                    const areMultipleImportsOnSameLine = currentNode.loc.start.line === previousNode.loc.start.line
 
                     if (areMultipleImportsOnSameLine) {
                         // Default import is before named imports
                         // E.g. import React, { useState, useEffect } from 'react'
                         if (
-                            currentSpecifier.type === TSESTree.AST_NODE_TYPES.ImportSpecifier &&
-                            previousSpecifier.type === TSESTree.AST_NODE_TYPES.ImportDefaultSpecifier
+                            currentNode.type === TSESTree.AST_NODE_TYPES.ImportSpecifier &&
+                            previousNode.type === TSESTree.AST_NODE_TYPES.ImportDefaultSpecifier
                         ) {
                             // Following is the case hence nothing to fix
                             // import React, { useState } from 'react'
@@ -65,7 +64,7 @@ const value = createRule({
                         } else {
                             // Token from import node
                             // E.g. import { A, B, C } from 'D' => this will be A
-                            const firstToken = sourceCode.getFirstToken(currentSpecifier)
+                            const firstToken = sourceCode.getFirstToken(currentNode)
 
                             // Exit if no named imports in braces or a single import
                             // E.g. import {} from 'react'
