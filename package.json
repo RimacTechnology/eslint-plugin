@@ -3,33 +3,62 @@
     "version": "0.0.3",
     "author": "Rimac Automobili d.o.o.",
     "license": "UNLICENSED",
+    "repository": "git@bitbucket.org:rimacautomobili/eslint-plugin-rimac.git",
     "main": "lib/index.js",
+    "scripts": {
+        "lint": "eslint './src/**/*'",
+        "build": "tsc -p tsconfig.production.json",
+        "test": "jest --config=./jest.config.ts --runInBand",
+        "cm": "cz",
+        "release": "semantic-release",
+        "postinstall": "husky install",
+        "prepublishOnly": "pinst --disable",
+        "postpublish": "pinst --enable"
+    },
     "files": [
         "lib"
     ],
-    "scripts": {
-        "lint": "eslint './src/**/*' --quiet",
-        "build": "tsc -p tsconfig.production.json",
-        "test": "jest --config=./jest.config.ts --runInBand"
+    "engines": {
+        "node": ">=16.13",
+        "yarn": ">=3"
     },
     "dependencies": {
         "@typescript-eslint/types": "^5.4.0"
     },
     "devDependencies": {
+        "@commitlint/cli": "^16.0.2",
+        "@commitlint/config-conventional": "^16.0.0",
         "@rimac-automobili/eslint-config": "^20.0.1",
+        "@semantic-release/changelog": "^6.0.1",
+        "@semantic-release/commit-analyzer": "^9.0.2",
+        "@semantic-release/git": "^10.0.1",
+        "@semantic-release/npm": "^8.0.3",
+        "@semantic-release/release-notes-generator": "^10.0.3",
         "@types/node": "^16.11.11",
         "@typescript-eslint/experimental-utils": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
+        "commitizen": "^4.2.4",
+        "conventional-changelog-conventionalcommits": "^4.6.3",
         "eslint": "^8.3.0",
         "eslint-plugin-eslint-plugin": "^4.0.2",
+        "husky": "^7.0.4",
         "jest": "^27.4.1",
+        "pinst": "^2.1.6",
         "prettier": "^2.5.0",
+        "semantic-release": "^18.0.1",
         "ts-jest": "^27.0.7",
         "ts-node": "^10.4.0",
         "typescript": "^4.5.2"
     },
-    "engines": {
-        "node": ">=v14.17.5"
+    "packageManager": "yarn@3.1.1",
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
     },
-    "packageManager": "yarn@3.1.1"
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    }
 }
