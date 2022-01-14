@@ -11,13 +11,11 @@ definitions:
           - yarn
         script:
           - yarn install
+        after-script:
+          - yarn npm audit
         artifacts:
           - node_modules/**
           - .yarn/cache/**
-    - step: &lint
-        name: Lint
-        script:
-          - yarn lint --quiet
     - step: &test
         name: Test
         script:
@@ -28,10 +26,14 @@ definitions:
           - yarn build
         artifacts:
           - lib/**
+    - step: &lint
+        name: Lint
+        script:
+          - yarn lint --quiet
     - step: &release
-      name: Release
-      script:
-        - yarn release
+        name: Release
+        script:
+          - yarn release
 
 pipelines:
   default:
