@@ -1,45 +1,68 @@
-image: node:16.13.0
+image: node:16.13.2
 
 definitions:
-    steps:
-        - step: &install
-              name: Install
-              script:
-                  - yarn install
-              artifacts:
-                  - node_modules/**
-        - step: &lint
-              name: Lint
-              script:
-                  - yarn lint
-        - step: &test
-              name: Test
-              script:
-                  - yarn test
-        - step: &build
-              name: Build
-              script:
-                  - yarn build
-              artifacts:
-                  - lib/**
-        - step: &deploy
-          name: Publish
-          script:
-              - pipe: atlassian/npm-publish:0.3.2
-                variables:
-                    NPM_TOKEN: $NPM_TOKEN
+  caches:
+    yarn: .yarn/cache
+  steps:
+    - step: &install
+        name: Install
+        caches:
+          - node
+          - yarn
+        script:
+          - yarn install
+        artifacts:
+          - node_modules/**
+          - .yarn/cache/**
+    - step: &lint
+        name: Lint
+        script:
+          - yarn lint --quiet
+    - step: &test
+        name: Test
+        script:
+          - yarn test
+    - step: &build
+        name: Build
+        script:
+          - yarn build
+        artifacts:
+          - lib/**
+    - step: &release
+      name: Release
+      script:
+        - yarn release
 
 pipelines:
-    default:
-        - step: *install
-        - parallel:
-              - step: *build
-              - step: *lint
-              - step: *test
-    tags:
-        v*:
-            - step: *install
-            - parallel:
-                  - step: *build
-                  - step: *lint
-                  - step: *test
+  default:
+    - step: *install
+    - parallel:
+        - step: *build
+        - step: *lint
+        - step: *test
+  branches:
+    alpha:
+      - step: *install
+      - parallel:
+          - step: *build
+          - step: *lint
+          - step: *test
+      - step:
+          <<: *release
+          name: Release (alpha)
+    beta:
+      - step: *install
+      - parallel:
+          - step: *build
+          - step: *lint
+          - step: *test
+      - step:
+          <<: *release
+          name: Release (beta)
+    master:
+      - step: *install
+      - parallel:
+          - step: *build
+          - step: *lint
+          - step: *test
+      - step: *release
