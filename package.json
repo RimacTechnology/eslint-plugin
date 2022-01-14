@@ -1,6 +1,6 @@
 {
     "name": "eslint-plugin-rimac",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "author": "Rimac Automobili d.o.o.",
     "license": "UNLICENSED",
     "repository": "git@bitbucket.org:rimacautomobili/eslint-plugin-rimac.git",
