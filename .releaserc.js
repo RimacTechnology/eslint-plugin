@@ -25,7 +25,7 @@ module.exports = {
                         release: 'patch',
                     },
                     {
-                        tag: 'chore',
+                        type: 'chore',
                         release: 'minor',
                     },
                     {
