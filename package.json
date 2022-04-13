@@ -1,6 +1,6 @@
 {
     "name": "@rimac-technology/eslint-plugin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Rimac Technology d.o.o.",
     "description": "Custom eslint rules",
     "license": "MIT",
