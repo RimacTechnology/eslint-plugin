@@ -1,10 +1,10 @@
 {
-    "name": "@rimac-technology/eslint-plugin-rimac",
+    "name": "@rimac-technology/eslint-plugin",
     "version": "1.0.0",
     "author": "Rimac Technology d.o.o.",
     "description": "Custom eslint rules",
     "license": "MIT",
-    "repository": "git@github.com:RimacTechnology/eslint-plugin-rimac.git",
+    "repository": "git@github.com:RimacTechnology/eslint-plugin.git",
     "main": "lib/index.js",
     "scripts": {
         "lint": "eslint './src/**/*' --quiet --cache --cache-strategy content --cache-location '.eslintcache/'",

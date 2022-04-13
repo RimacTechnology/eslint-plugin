@@ -1606,9 +1606,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rimac-technology/eslint-plugin-rimac@workspace:.":
+"@rimac-technology/eslint-plugin@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@rimac-technology/eslint-plugin-rimac@workspace:."
+  resolution: "@rimac-technology/eslint-plugin@workspace:."
   dependencies:
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
