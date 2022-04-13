@@ -1,6 +1,6 @@
 {
     "name": "@rimac-technology/eslint-plugin-rimac",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "author": "Rimac Technology d.o.o.",
     "license": "MIT",
     "repository": "git@github.com:RimacTechnology/eslint-plugin-rimac.git",
