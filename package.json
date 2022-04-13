@@ -2,6 +2,7 @@
     "name": "@rimac-technology/eslint-plugin-rimac",
     "version": "1.0.0",
     "author": "Rimac Technology d.o.o.",
+    "description": "Custom eslint rules",
     "license": "MIT",
     "repository": "git@github.com:RimacTechnology/eslint-plugin-rimac.git",
     "main": "lib/index.js",
