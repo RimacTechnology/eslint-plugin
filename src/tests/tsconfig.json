@@ -5,8 +5,15 @@
         "module": "commonjs",
         "strict": true,
         "esModuleInterop": true,
-        "lib": ["es2015", "es2017", "esnext"],
+        "types": [],
+        "lib": [
+            "es2015",
+            "es2017",
+            "esnext"
+        ],
         "experimentalDecorators": true
     },
-    "include": ["file.ts", "react.tsx"]
+    "include": [
+        "fixtures"
+    ]
 }

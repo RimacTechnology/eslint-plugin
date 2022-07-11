@@ -1,21 +1,37 @@
-import rule from '../../rules/import-declaration-newline'
-import { ruleTester } from '../ruleTester'
+/* eslint-disable sort-keys-fix/sort-keys-fix */
 
+import rule from '../../rules/import-declaration-newline'
+import {
+    ruleTester, TS_FILE_PATH,
+} from '../utils'
+
+// NOTE: output is formatter weirdly because this plugin should only be concerned about import new lines, other rules handle indentation
 ruleTester.run(rule.name, rule.value, {
     invalid: [
         {
-            code: 'import {\nk1, k2\n} from \'something\';',
+            code: `
+import {
+    k1, k2
+} from "something"
+            `,
+            filename: TS_FILE_PATH,
             errors: [
                 {
                     column: 1,
-                    line: 1,
+                    line: 2,
                     messageId: 'default',
                 },
             ],
-            output: 'import {\nk1,\nk2\n} from \'something\';',
+            output: `
+import {
+    k1,
+k2
+} from "something"
+            `,
         },
         {
-            code: 'import { k1, k2, k3 } from \'something\';',
+            code: 'import { k1, k2, k3 } from "something"',
+            filename: TS_FILE_PATH,
             errors: [
                 {
                     column: 1,
@@ -28,10 +44,13 @@ ruleTester.run(rule.name, rule.value, {
                     messageId: 'default',
                 },
             ],
-            output: 'import { k1,\nk2,\nk3 } from \'something\';',
+            output: `import { k1,
+k2,
+k3 } from "something"`,
         },
         {
-            code: 'import React, { useState, useEffect } from \'react\';',
+            code: 'import React, { useState, useEffect } from "react"',
+            filename: TS_FILE_PATH,
             errors: [
                 {
                     column: 1,
@@ -44,10 +63,14 @@ ruleTester.run(rule.name, rule.value, {
                     messageId: 'default',
                 },
             ],
-            output: 'import React, {\n useState,\nuseEffect } from \'react\';',
+            output: `import React, {
+ useState,
+useEffect } from "react"`,
         },
         {
-            code: 'import React, { useState,\nuseEffect } from \'react\';',
+            code: `import React, { useState,
+useEffect } from "react"`,
+            filename: TS_FILE_PATH,
             errors: [
                 {
                     column: 1,
@@ -55,19 +78,40 @@ ruleTester.run(rule.name, rule.value, {
                     messageId: 'default',
                 },
             ],
-            output: 'import React, {\n useState,\nuseEffect } from \'react\';',
+            output: `import React, {
+ useState,
+useEffect } from "react"`,
         },
     ],
     valid: [
-        'import {\nk1,\nk2,\nk3,\nk4,\nk5\n} from \'something\';',
-        'import {\nk1\n, k2\n, k3\n,k4\n} from \'something\';',
-        'import { k1,\nk2,\nk3,\nk4 } from \'something\';',
-        'import { k1\n, k2\n, k3\n, k4 } from \'something\';',
-        'import { k1 } from \'something\';',
-        'import {\nk1\n} from \'something\';',
-        'import {} from \'something\';',
-        'import React, { useState } from \'react\';',
-        'import React, {\nuseState } from \'react\';',
-        'import React, {\nuseState, \nuseEffect } from \'react\'',
+        {
+            code: `import {
+k1,
+k2,
+k3,
+k4,
+k5
+} from 'something'`,
+            filename: TS_FILE_PATH,
+        },
+        {
+            code: 'import { k1 } from \'something\'',
+            filename: TS_FILE_PATH,
+        },
+        {
+            code: 'import {} from \'something\'',
+            filename: TS_FILE_PATH,
+        },
+        {
+            code: 'import React, { useState } from \'react\'',
+            filename: TS_FILE_PATH,
+        },
+        {
+            code: `import React, {
+useState,
+useEffect,
+} from 'react'`,
+            filename: TS_FILE_PATH,
+        },
     ],
 })
