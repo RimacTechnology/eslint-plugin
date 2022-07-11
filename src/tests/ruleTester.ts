@@ -1,8 +1,8 @@
 import path from 'path'
 
-import { RuleTester } from '@typescript-eslint/experimental-utils/dist/eslint-utils'
+import { ESLintUtils } from '@typescript-eslint/utils'
 
-export const ruleTester = new RuleTester({
+export const ruleTester = new ESLintUtils.RuleTester({
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 2015,
