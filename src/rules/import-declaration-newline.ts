@@ -7,7 +7,7 @@ const NAME = 'import-declaration-newline'
 const value = createRule({
     create(context) {
         return {
-            ImportDeclaration(node: TSESTree.ImportDeclaration) {
+            ImportDeclaration(node) {
                 // If only 1 import exit
                 if (node.specifiers.length < 2) {
                     return
