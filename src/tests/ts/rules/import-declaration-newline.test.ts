@@ -1,12 +1,13 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 
-import rule from '../../rules/import-declaration-newline'
+import rule from '../../../rules/import-declaration-newline'
 import {
-    ruleTester, TS_FILE_PATH,
+    TS_FILE_PATH,
+    tsRuleTester,
 } from '../utils'
 
 // NOTE: output is formatter weirdly because this plugin should only be concerned about import new lines, other rules handle indentation
-ruleTester.run(rule.name, rule.value, {
+tsRuleTester.run(rule.name, rule.value, {
     invalid: [
         {
             code: `

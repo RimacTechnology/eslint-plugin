@@ -1,9 +1,5 @@
 on:
     push:
-        branches:
-            - master
-            - beta
-            - alpha
     pull_request:
     workflow_dispatch:
 

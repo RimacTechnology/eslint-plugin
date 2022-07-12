@@ -24,6 +24,11 @@ const value = createRule({
                     const previousNode = node.specifiers[index - 1]
                     const currentNode = node.specifiers[index]
 
+                    // If no imports found exit
+                    if (!currentNode || !previousNode) {
+                        return
+                    }
+
                     // E.g. import React, { useEffect, useState } from 'react'
                     // It's looking at React and useEffect
                     const areMultipleImportsOnSameLine = currentNode.loc.start.line === previousNode.loc.start.line
