@@ -6,6 +6,7 @@ import {
     TSX_FILE_PATH,
 } from '../utils'
 
+// TODO: check if comment include todo first
 ruleTester.run(rule.name, rule.value, {
     invalid: [
         {
@@ -18,6 +19,9 @@ const Component = () => {
      */
     const router = useRouter()
 
+    // This is just a regular comment
+    const something = 1
+
     // FIXME: comment above the return
     return (
         <div 
@@ -26,6 +30,8 @@ const Component = () => {
             style={{ height: '50px' }}
         >
             {/* TODO: this is a different jsx comment */}
+            <p>Hello</p>
+            {/* This is a regular jsx comment */}
             <p>Hello</p>
         </div>
     )
