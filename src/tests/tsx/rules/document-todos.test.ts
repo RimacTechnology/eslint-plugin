@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 
-import rule from '../../rules/document-todos'
+import rule from '../../../rules/document-todos'
 import {
-    ruleTester,
+    jsxRuleTester,
     TSX_FILE_PATH,
 } from '../utils'
 
@@ -12,7 +12,7 @@ const options: OptionType[] = [{
     url: 'https://rimac-automobili.atlassian.net/jira/software/c/projects/',
 }]
 
-ruleTester.run<string, Record<string, string>[]>(rule.name, rule.value, {
+jsxRuleTester.run<string, Record<string, string>[]>(rule.name, rule.value, {
     invalid: [
         {
             code: `
