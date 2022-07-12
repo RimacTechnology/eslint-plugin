@@ -8,8 +8,14 @@
     "parserOptions": {
         "project": "./tsconfig.json"
     },
-    "plugins": ["eslint-plugin"],
-    "ignorePatterns": ["src/fixtures"],
+    "plugins": [
+        "eslint-plugin"
+    ],
+    "ignorePatterns": [
+        "*.json",
+        "file.ts",
+        "file.tsx"
+    ],
     "rules": {
         "eslint-plugin/require-meta-docs-url": "off",
         "eslint-plugin/require-meta-docs-description": "off"
