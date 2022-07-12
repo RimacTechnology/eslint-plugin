@@ -1,5 +1,3 @@
-import { TSESTree } from '@typescript-eslint/types'
-
 import { createRule } from '../utils'
 
 const NAME = 'import-declaration-newline'
@@ -13,24 +11,29 @@ const value = createRule({
                 const sourceCode = context.getSourceCode()
                 const comments = sourceCode.getAllComments()
 
-                comments.forEach((comment) => {
+                for (const comment of comments) {
                     const value = comment.value
                     const url = context.settings.url as string
+
                     const isTodo = value.toLowerCase().includes('todo')
                     const isFixme = value.toLowerCase().includes('fixme')
+                    const hasLink = value.toLowerCase().includes(url.toLowerCase())
 
-                    if (
-                        (isTodo || isFixme) &&
-                        value.includes(url.toLowerCase())
-                    ) {
-                        return 
+                    // Valid todo/fixme comment
+                    if ((isTodo || isFixme) && hasLink) {
+                        continue
+                    }
+
+                    // Regular comment
+                    if (!isTodo && !isFixme) {
+                        continue
                     }
 
                     context.report({
-                        messageId: 'default',
                         loc: comment.loc,
+                        messageId: 'default',
                     })
-                })
+                }
             },
         }
     },
@@ -42,7 +45,7 @@ const value = createRule({
             requiresTypeChecking: false,
         },
         messages: {
-            default: 'All TODOs and FIXMEs have an issue link attached to them',
+            default: 'All TODOs and FIXMEs must have an issue link attached to them',
         },
         schema: [],
         type: 'problem',
@@ -54,4 +57,3 @@ export default {
     name: NAME,
     value,
 }
-
