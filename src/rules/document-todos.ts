@@ -1,23 +1,24 @@
 import { createRule } from '../utils'
 
-const NAME = 'import-declaration-newline'
+const NAME = 'document-todos'
 
-// TODO: make schema
-// TODO: type settings
-const value = createRule({
+const value = createRule<Record<string, string>[], string>({
     create(context) {
         return {
             Program() {
+                const url = context.options[0]?.url
+
+                if (!url) {
+                    throw new Error(`URL not set for the ${NAME} rule. Please set the URL.`)
+                }
+
                 const sourceCode = context.getSourceCode()
                 const comments = sourceCode.getAllComments()
 
                 for (const comment of comments) {
-                    const value = comment.value
-                    const url = context.settings.url as string
-
-                    const isTodo = value.toLowerCase().includes('todo')
-                    const isFixme = value.toLowerCase().includes('fixme')
-                    const hasLink = value.toLowerCase().includes(url.toLowerCase())
+                    const isTodo = comment.value.toLowerCase().includes('todo')
+                    const isFixme = comment.value.toLowerCase().includes('fixme')
+                    const hasLink = comment.value.toLowerCase().includes(url.toLowerCase())
 
                     // Valid todo/fixme comment
                     if ((isTodo || isFixme) && hasLink) {
@@ -47,7 +48,15 @@ const value = createRule({
         messages: {
             default: 'All TODOs and FIXMEs must have an issue link attached to them',
         },
-        schema: [],
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                url: {
+                    type: 'string',
+                },
+            },
+            type: 'object',
+        }],
         type: 'problem',
     },
     name: NAME,

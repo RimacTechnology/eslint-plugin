@@ -1,17 +1,18 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 
-import { SharedConfigurationSettings } from '@typescript-eslint/utils/dist/ts-eslint';
 import rule from '../../rules/document-todos'
 import {
     ruleTester,
     TSX_FILE_PATH,
 } from '../utils'
 
-const settings: Readonly<SharedConfigurationSettings> = {
-    url: 'https://rimac-automobili.atlassian.net/jira/software/c/projects/',
-}
+type OptionType = Record<string, string>
 
-ruleTester.run(rule.name, rule.value, {
+const options: OptionType[] = [{
+    url: 'https://rimac-automobili.atlassian.net/jira/software/c/projects/',
+}]
+
+ruleTester.run<string, Record<string, string>[]>(rule.name, rule.value, {
     invalid: [
         {
             code: `
@@ -28,7 +29,7 @@ const Component = () => {
 }
             `,
             filename: TSX_FILE_PATH,
-            settings,
+            options,
             errors: [
                 {
                     line: 2,
@@ -51,7 +52,7 @@ const Component = () => {
 }
             `,
             filename: TSX_FILE_PATH,
-            settings,
+            options,
             errors: [
                 {
                     line: 6,
@@ -74,7 +75,7 @@ const Component = () => {
 }
             `,
             filename: TSX_FILE_PATH,
-            settings,
+            options,
             errors: [
                 {
                     line: 8,
@@ -100,7 +101,7 @@ const Component = () => {
 }
             `,
             filename: TSX_FILE_PATH,
-            settings,
+            options,
             errors: [
                 {
                     line: 3,
@@ -129,7 +130,7 @@ const Component = () => {
 }
             `,
             filename: TSX_FILE_PATH,
-            settings,
+            options,
             errors: [
                 {
                     line: 2,
@@ -164,7 +165,7 @@ const Component = () => {
     )
 }
 `,
-            settings,
+            options,
             filename: TSX_FILE_PATH,
         },
         {
@@ -187,7 +188,7 @@ const Component = () => {
     )
 }
 `,
-            settings,
+            options,
             filename: TSX_FILE_PATH,
         },
         {
@@ -204,7 +205,7 @@ const Component = () => {
     )
 }
 `,
-            settings,
+            options,
             filename: TSX_FILE_PATH,
         },
         {
@@ -221,7 +222,7 @@ const Component = () => {
     )
 }
 `,
-            settings,
+            options,
             filename: TSX_FILE_PATH,
         },
         {
@@ -238,7 +239,7 @@ const Component = () => {
     )
 }
 `,
-            settings,
+            options,
             filename: TSX_FILE_PATH,
         },
         {
@@ -258,7 +259,7 @@ const Component = () => {
     )
 }
 `,
-            settings,
+            options,
             filename: TSX_FILE_PATH,
         },
     ],
