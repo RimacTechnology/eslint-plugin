@@ -8,40 +8,45 @@ tsRuleTester.run(rule.name, rule.value, {
         {
             errors: [
                 {
-                    column: 1,
-                    line: 2,
                     messageId: 'default',
                 },
             ],
             code: `
-export class PlaygroundRootStore {
-    public static name: string
-
-    public playgroundStore: PlaygroundStore
-
-    constructor(value: PlaygroundRootStoreSnapshot) {
-        this.liveDataStore = new LiveDataStore(value.playground?.autostream)
+export class Person {
+    public static calculate() {
+    return 1 + 1 
     }
 
-    public get vehicleSignalsList(): VehicleSignal[] {
-        return [...this.vehicleSignals.values()]
+    private static flyAway() {
+    return 'im gone'
     }
 
-    public get isStreaming(): boolean {
-        return this.liveDataStore.isStreaming || (this.liveDataStore.autostream && this.liveDataStore.isConnected)
+    private address: string
+    public livingPlace: string
+    public lastName: string
+
+    constructor(myName: string) {
+    this.lastName = myName
     }
 
-    public addVehicle(vehicle: VehicleJSON): void {
-        this.vehicle = vehicle
+    private whoAmI() {
+    return "I dont know"
     }
 
-    public addWidgetPlaceholder(widget: WidgetStore): void {
-        this.widgetPlaceholder = widget
+    public whoAreYou() {
+    return "You is me"
     }
 
-    public addWidgetSettings(widgetId: string): void {
-        this.widgetSettings = widgetId
+    public set someone(test: string) {
+    this.lastName = test
     }
+
+    public get what() {
+    return this.address + "1"
+    }
+
+    private static phoneNumber: number
+    public static fistName: string
 }
 `,
             filename: TS_FILE_PATH,
