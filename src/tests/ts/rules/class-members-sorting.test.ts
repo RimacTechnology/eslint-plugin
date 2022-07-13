@@ -89,5 +89,47 @@ public get what() {
 `,
         },
     ],
-    valid: [],
+    valid: [
+        {
+            filename: TS_FILE_PATH,
+            code: `
+export class Person {
+  private static phoneNumber: number
+  public static fistName: string
+
+  public static calculate() {
+    return 1 + 1 
+  }
+
+  private static flyAway() {
+    return 'im gone'
+  }
+
+  private address: string
+  public livingPlace: string
+  public lastName: string
+
+  constructor(myName: string) {
+    this.lastName = myName
+  }
+
+  private whoAmI() {
+    return "I dont know"
+  }
+  
+  public whoAreYou() {
+    return "You is me"
+  }
+
+  public set someone(test: string) {
+    this.lastName = test
+  }
+
+  public get what() {
+    return this.address + "1"
+  }
+}
+`
+        }
+    ],
 })

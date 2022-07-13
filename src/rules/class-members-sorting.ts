@@ -70,6 +70,7 @@ const getType = (element: ClassElement) => {
     return MEMBERS.OTHER
 }
 
+// TODO: check if order is correct in the first place
 const value = createRule({
     create(context) {
         return {
