@@ -71,6 +71,8 @@ const value = createRule({
     create(context) {
         return {
             ClassBody(node) {
+                const sourceCode = context.getSourceCode()
+
                 const nodes: Record<MEMBERS, ClassElement[]> = {
                     "static-properties": [],
                     "static-methods": [],
@@ -91,22 +93,23 @@ const value = createRule({
                 })
 
                 const classContent = Object.values(nodes).reduce((accumulator, node) => {
-                    const value = node.map((node) => {
+                    const memberText = node.map((node) => {
                         if (node.type === AST_NODE_TYPES.MethodDefinition || node.type === AST_NODE_TYPES.PropertyDefinition) {
-                            console.log( JSON.stringify(node) )
+                            const text = sourceCode.getText(node) 
 
-                            return ''
+                            return text + "\n"
                         }
 
                         return ''
                     })
 
-                    return accumulator + value.join(' ')
+                    return accumulator + memberText.join(' ')
                 }, '')
+
 
                 context.report({
                     fix: (fixer) => {
-                        return fixer.replaceTextRange(node.range, '{' + classContent + '}')
+                        return fixer.replaceTextRange(node.range, '{\n' + classContent + '\n}')
                     },
                     messageId: 'default',
                     loc: node.loc,

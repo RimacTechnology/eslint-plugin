@@ -13,12 +13,55 @@ tsRuleTester.run(rule.name, rule.value, {
             ],
             code: `
 export class Person {
+    constructor(myName: string) {
+        this.lastName = myName
+    }
+
+    public set someone(test: string) {
+        this.lastName = test
+    }
+
+    public get what() {
+        return this.address + "1"
+    }
+
+    private address: string
+
+    private static flyAway() {
+        return 'im gone'
+    }
+
+    // Im a comment
+    private whoAmI() {
+        return "I dont know"
+    }
+
+    public livingPlace: string
+
+    public lastName: string
+
     public static calculate() {
-    return 1 + 1 
+        return 1 + 1 
+    }
+
+    private static phoneNumber: number
+
+    public whoAreYou() {
+        return "You is me"
+    }
+
+    public static fistName: string
+}
+`,
+            filename: TS_FILE_PATH,
+            output: `
+export class Person {
+    public static calculate() {
+        return 1 + 1 
     }
 
     private static flyAway() {
-    return 'im gone'
+        return 'im gone'
     }
 
     private address: string
@@ -26,30 +69,30 @@ export class Person {
     public lastName: string
 
     constructor(myName: string) {
-    this.lastName = myName
+        this.lastName = myName
     }
 
+    // Im a comment
     private whoAmI() {
-    return "I dont know"
+        return "I dont know"
     }
 
     public whoAreYou() {
-    return "You is me"
+        return "You is me"
     }
 
     public set someone(test: string) {
-    this.lastName = test
+        this.lastName = test
     }
 
     public get what() {
-    return this.address + "1"
+        return this.address + "1"
     }
 
     private static phoneNumber: number
     public static fistName: string
 }
-`,
-            filename: TS_FILE_PATH,
+`
         },
     ],
     valid: [],
