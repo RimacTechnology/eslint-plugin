@@ -15,6 +15,8 @@ tsRuleTester.run(rule.name, rule.value, {
             ],
             code: `
 export class PlaygroundRootStore {
+    public static name: string
+
     public playgroundStore: PlaygroundStore
 
     constructor(value: PlaygroundRootStoreSnapshot) {
