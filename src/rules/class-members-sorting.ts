@@ -1,20 +1,23 @@
-import { ClassElement } from '@typescript-eslint/types/dist/generated/ast-spec'
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+
+import type { ClassElement } from '@typescript-eslint/types/dist/generated/ast-spec'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+
 import { createRule } from '../utils'
 
 const NAME = 'class-members-sorting'
 
 enum MEMBERS {
-    STATIC_PROPERTIES = "static-properties",
-    STATIC_METHODS = "static-methods",
-    PUBLIC_PROPERTIES = "public-properties",
-    PRIVATE_PROPERTIES = "private-properties",
-    CONSTRUCTORS = "constructors",
-    GETTERS = "getters",
-    SETTERS = "setters",
-    PUBLIC_METHODS = "public-methods",
-    PRIVATE_METHODS = "private-methods",
-    OTHER = "other",
+    CONSTRUCTORS = 'constructors',
+    GETTERS = 'getters',
+    OTHER = 'other',
+    PRIVATE_METHODS = 'private-methods',
+    PRIVATE_PROPERTIES = 'private-properties',
+    PUBLIC_METHODS = 'public-methods',
+    PUBLIC_PROPERTIES = 'public-properties',
+    SETTERS = 'setters',
+    STATIC_METHODS = 'static-methods',
+    STATIC_PROPERTIES = 'static-properties'
 }
 
 const getType = (element: ClassElement) => {
@@ -73,31 +76,35 @@ const value = createRule({
             ClassBody(node) {
                 const sourceCode = context.getSourceCode()
 
-                const nodes: Record<MEMBERS, ClassElement[]> = {
-                    "static-properties": [],
-                    "static-methods": [],
-                    "private-properties": [],
-                    "public-properties": [],
+                const classElements: Record<MEMBERS, ClassElement[]> = {
+                    'static-properties': [],
+                    'static-methods': [],
+                    'private-properties': [],
+                    'public-properties': [],
                     constructors: [],
-                    "private-methods": [],
-                    "public-methods": [],
+                    'private-methods': [],
+                    'public-methods': [],
                     setters: [],
                     getters: [],
-                    other: []
+                    other: [],
                 }
 
-                node.body.forEach((element: ClassElement) => {
+                node.body.forEach((element) => { // @ts-expect-error
                     const type = getType(element)
 
-                    nodes[type].push(element)
+                    // @ts-expect-error
+                    classElements[type].push(element)
                 })
 
-                const classContent = Object.values(nodes).reduce((accumulator, node) => {
-                    const memberText = node.map((node) => {
-                        if (node.type === AST_NODE_TYPES.MethodDefinition || node.type === AST_NODE_TYPES.PropertyDefinition) {
-                            const text = sourceCode.getText(node) 
+                const classContent = Object.values(classElements).reduce((accumulator, classElementList) => {
+                    const memberText = classElementList.map((classElement) => {
+                        if (
+                            classElement.type === AST_NODE_TYPES.MethodDefinition ||
+                            classElement.type === AST_NODE_TYPES.PropertyDefinition
+                        ) { // @ts-expect-error
+                            const text = sourceCode.getText(classElement)
 
-                            return text + "\n"
+                            return `${text}\n`
                         }
 
                         return ''
@@ -106,10 +113,9 @@ const value = createRule({
                     return accumulator + memberText.join(' ')
                 }, '')
 
-
                 context.report({
                     fix: (fixer) => {
-                        return fixer.replaceTextRange(node.range, '{\n' + classContent + '\n}')
+                        return fixer.replaceTextRange(node.range, `{\n${classContent}}`)
                     },
                     messageId: 'default',
                     loc: node.loc,

@@ -1,6 +1,9 @@
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+
 import rule from '../../../rules/class-members-sorting'
 import {
-    TS_FILE_PATH, tsRuleTester,
+    TS_FILE_PATH,
+    tsRuleTester,
 } from '../utils'
 
 tsRuleTester.run(rule.name, rule.value, {
@@ -92,7 +95,7 @@ export class Person {
     private static phoneNumber: number
     public static fistName: string
 }
-`
+`,
         },
     ],
     valid: [],
