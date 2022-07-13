@@ -59,41 +59,32 @@ export class Person {
             filename: TS_FILE_PATH,
             output: `
 export class Person {
-    public static calculate() {
-        return 1 + 1 
-    }
-
-    private static flyAway() {
+private static phoneNumber: number
+ public static fistName: string
+private static flyAway() {
         return 'im gone'
     }
-
-    private address: string
-    public livingPlace: string
-    public lastName: string
-
-    constructor(myName: string) {
+ public static calculate() {
+        return 1 + 1 
+    }
+private address: string
+public livingPlace: string
+ public lastName: string
+constructor(myName: string) {
         this.lastName = myName
     }
-
-    // Im a comment
-    private whoAmI() {
+private whoAmI() {
         return "I dont know"
     }
-
-    public whoAreYou() {
+public whoAreYou() {
         return "You is me"
     }
-
-    public set someone(test: string) {
+public set someone(test: string) {
         this.lastName = test
     }
-
-    public get what() {
+public get what() {
         return this.address + "1"
     }
-
-    private static phoneNumber: number
-    public static fistName: string
 }
 `,
         },
